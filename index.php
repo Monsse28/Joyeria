@@ -92,7 +92,7 @@ if (!isset($_SESSION['Admin_id'])) {
 <body>
 
   <header>
-    <h1>Menú de Administrador</h1>
+    <h1>Menú</h1>
   </header>
 
   <div class="main-container">
