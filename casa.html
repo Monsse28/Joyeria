@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Casa Suarez</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #e6fff3;
+      color: #154734;
+      margin: 0;
+      padding: 20px;
+    }
+
+    h1 {
+      text-align: center;
+      font-size: 36px;
+      margin-bottom: 10px;
+    }
+
+    .intro {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+
+    .tarjeta {
+      display: flex;
+      align-items: center;
+      background-color: #fff;
+      margin: 20px auto;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      max-width: 900px;
+      overflow: hidden;
+    }
+
+    .tarjeta img {
+      width: 300px;
+      height: auto;
+      object-fit: cover;
+    }
+
+    .contenido {
+      padding: 20px;
+      text-align: left;
+    }
+
+    .contenido h3 {
+      margin-top: 0;
+      color: #1b5e41;
+    }
+
+    .tarjeta:nth-child(even) {
+      flex-direction: row-reverse;
+    }
+
+    a {
+      display: block;
+      text-align: center;
+      margin-top: 40px;
+      color: #154734;
+      font-weight: bold;
+      text-decoration: underline;
+    }
+
+    a:hover {
+      color: #0f3e2b;
+    }
+
+    @media (max-width: 768px) {
+      .tarjeta {
+        flex-direction: column !important;
+      }
+
+      .tarjeta img {
+        width: 100%;
+      }
+
+      .contenido {
+        text-align: center;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Casa Suarez</h1>
+
+  <div class="intro">
+    <p>La familia Suarez</p>
+    <p>Desde que D. Emiliano Suárez Faffian inauguró la primera tienda-taller de joyería hasta hoy, tres generaciones han conseguido que Suarez sea sinónimo de adaptación, evolución y superación.</p>
+    <p>Todo un referente en el mundo de la joyería que lleva 80 años abanderando la excelencia, la transparencia y la contemporaneidad gracias al saber hacer de los mejores maestros joyeros junto a una cuidadosa selección de los materiales más exclusivos.</p>
+  </div>
+
+  <!-- Tarjetas con imagen + texto al lado -->
+  <div class="tarjeta">
+    <img src="imagenes/casa_suarez1.jpg" alt="Primera tienda Suarez">
+    <div class="contenido">
+      <h3>1900</h3>
+      <p>Emiliano Suárez Faffian inaugura en Bilbao la primera tienda-taller de joyería. Un revolucionario concepto que ha trascendido hasta convertirse en lo que hoy conocemos como Grupo Suarez.</p>
+    </div>
+  </div>
+
+  <div class="tarjeta">
+    <img src="imagenes/jardines.jpg" alt="Tienda Jardines">
+    <div class="contenido">
+      <h3>1943</h3>
+      <p>Inauguración de la boutique Suarez en la calle Jardines de Bilbao. Un pequeño local de 20 m² que supuso el comienzo del gran proyecto de la familia.</p>
+    </div>
+  </div>
+
+  <div class="tarjeta">
+    <img src="imagenes/hermanos_suarez.jpg" alt="Hermanos Suarez">
+    <div class="contenido">
+      <h3>1974 - 1975</h3>
+      <p>Tras el accidente que acabó con la vida del Sr. Suárez y su esposa Sara, los jóvenes hermanos Benito y Emiliano asumen toda la responsabilidad del negocio familiar.</p>
+    </div>
+  </div>
+
+  <div class="tarjeta">
+    <img src="imagenes/diseno_unico.jpg" alt="Diseño exclusivo">
+    <div class="contenido">
+      <h3>1982 - 2023</h3>
+      <p>Revolucionamos el concepto de exclusividad a través de diseños de joyas únicos e irrepetibles, destacando la calidad y el trabajo artesanal.</p>
+    </div>
+  </div>
+
+  <a href="index.html">Volver al inicio</a>
+
+</body>
+</html>

@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Joyería Suarez</title>
+  <style>
+    :root {
+      --verde-menta: #b7eed3;
+      --verde-suave: #e6fff3;
+      --verde-oscuro: #154734;
+      --verde-hover: #3b6e60;
+    }
+
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: var(--verde-suave);
+      color: #333;
+    }
+
+    header {
+      background-color: white;
+      text-align: center;
+      padding: 30px 20px;
+      font-size: 40px;
+      font-weight: bold;
+      letter-spacing: 2px;
+      color: #000;
+    }
+
+    .nav-bar {
+      background-color: var(--verde-menta);
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      padding: 10px 0;
+    }
+
+    .nav-bar button {
+      background: none;
+      border: none;
+      margin: 0 15px;
+      padding: 10px 15px;
+      font-weight: bold;
+      font-size: 16px;
+      color: #1b3b2f;
+      cursor: pointer;
+      transition: color 0.3s;
+    }
+
+    .nav-bar button:hover {
+      color: var(--verde-hover);
+    }
+
+    .main-image {
+      width: 100%;
+      height: 500px;
+      object-fit: cover;
+      object-position: center;
+      display: block;
+      margin: 0 auto;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+    }
+
+    .button-section {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      margin: 40px 0;
+      flex-wrap: wrap;
+    }
+
+    .button-section a {
+      text-decoration: none;
+      background-color: var(--verde-oscuro);
+      color: white;
+      padding: 14px 28px;
+      border-radius: 6px;
+      font-size: 16px;
+      font-weight: bold;
+      transition: background-color 0.3s;
+    }
+
+    .button-section a:hover {
+      background-color: var(--verde-hover);
+    }
+
+    footer {
+      background-color: var(--verde-oscuro);
+      color: white;
+      text-align: center;
+      padding: 20px;
+      font-size: 14px;
+    }
+
+    footer a {
+      color: white;
+      text-decoration: underline;
+    }
+
+    footer a:hover {
+      color: var(--verde-menta);
+    }
+
+    /* WhatsApp button */
+    .whatsapp-button {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background-color: #25D366;
+      color: white;
+      font-size: 28px;
+      padding: 15px 18px;
+      border-radius: 50%;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+      z-index: 1000;
+      text-align: center;
+      transition: background-color 0.3s, transform 0.3s;
+      text-decoration: none;
+    }
+
+    .whatsapp-button:hover {
+      background-color: #1ebe5c;
+      transform: scale(1.1);
+    }
+  </style>
+</head>
+<body>
+
+<header>SUAREZ</header>
+
+<nav class="nav-bar">
+  <button onclick="location.href='alta.html'">Alta Joyería</button>
+  <button onclick="location.href='compromiso.html'">Compromiso</button>
+  <button onclick="location.href='relojeria.html'">Relojería</button>
+  <button onclick="location.href='casa.html'">Casa Suarez</button>
+</nav>
+
+<!-- Imagen principal -->
+<img src="https://www.joyeriasuarez.com/dw/image/v2/BCBK_PRD/on/demandware.static/-/Library-Sites-Suarez_SFRA/default/dw937f973c/top-dibujo-fachada-desktop.jpg" 
+     alt="Imagen principal" class="main-image" />
+
+<!-- Botones de acceso -->
+<div class="button-section">
+  <a href="loginCliente.php">Acceder como Cliente</a>
+  <a href="loginadmin.php">Acceder como Administrador</a>
+  <a href="FrmAddCliente.php">Unirse</a>
+</div>
+
+<!-- Botón flotante de WhatsApp -->
+<a href="https://wa.me/34607894009" class="whatsapp-button" target="_blank" title="Chatea por WhatsApp">
+  💬
+</a>
+
+<footer>
+  Contacto: <a href="mailto:contactoatc@joyeriasuarez.com">contactoatc@joyeriasuarez.com</a> |
+  Tel: 917-811-680 | Escríbenos al 607-894-009 |
+  <a href="https://www.joyeriasuarez.com" target="_blank"></a>
+</footer>
+
+</body>
+</html>
+
+
+
+
+
+
+
+
+
