@@ -1,7 +1,13 @@
 <?php
+// Mostrar errores en pantalla para depuración
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+
 session_start();
 include_once("MysqlConnector.php");
 
+// Verifica si el administrador ha iniciado sesión
 if (!isset($_SESSION['Admin_id'])) {
     header("Location: index.php");
     exit;
@@ -12,8 +18,8 @@ $conn = $db->connect();
 
 // Cambiar estado de habilitado
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['toggle_id'], $_POST['current_status'])) {
-    $id = $_POST['toggle_id'];
-    $new_status = $_POST['current_status'] == 1 ? 0 : 1;
+    $id = (int)$_POST['toggle_id'];
+    $new_status = ($_POST['current_status'] == 1) ? 0 : 1;
 
     $stmtToggle = $conn->prepare("UPDATE Articulos SET habilitado = ? WHERE idArticulo = ?");
     if ($stmtToggle) {
@@ -22,12 +28,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['toggle_id'], $_POST['c
         $stmtToggle->close();
         header("Location: ver_inventario.php");
         exit;
+    } else {
+        echo "Error al preparar toggle: " . $conn->error;
     }
 }
 
 // Eliminar artículo
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['delete_id'])) {
-    $delete_id = $_POST['delete_id'];
+    $delete_id = (int)$_POST['delete_id'];
 
     $stmtInv = $conn->prepare("DELETE FROM Inventario WHERE idArticulo = ?");
     if ($stmtInv) {
@@ -43,16 +51,23 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['delete_id'])) {
         $stmtArt->close();
         header("Location: ver_inventario.php");
         exit;
+    } else {
+        echo "Error al preparar eliminación: " . $conn->error;
     }
 }
 
-// Obtener datos
+// Obtener artículos e inventario
 $stmt = $conn->prepare("
     SELECT a.idArticulo, a.descripcion, a.caracteristicas, a.precio, a.imagen, a.habilitado,
            COALESCE(i.cantidad, 0) as cantidad, i.idTienda
     FROM Articulos a
     LEFT JOIN Inventario i ON a.idArticulo = i.idArticulo
 ");
+
+if (!$stmt) {
+    die("Error al preparar consulta: " . $conn->error);
+}
+
 $stmt->execute();
 $result = $stmt->get_result();
 ?>
@@ -162,7 +177,7 @@ $result = $stmt->get_result();
         <td>$<?= number_format($row['precio'], 2) ?></td>
         <td><?= $row['cantidad'] ?></td>
         <td>
-          <?php if (!empty($row['imagen'])): ?>
+          <?php if (!empty($row['imagen']) && file_exists("uploads/" . $row['imagen'])): ?>
             <img src="uploads/<?= htmlspecialchars($row['imagen']) ?>" alt="Imagen">
           <?php else: ?>
             Sin imagen
@@ -170,7 +185,7 @@ $result = $stmt->get_result();
         </td>
         <td><?= $row['habilitado'] ? 'Activo' : 'Deshabilitado' ?></td>
         <td>
-          <a class="btn edit-btn" href="editar_inventario.php?id=<?= $row['idArticulo'] ?>&tienda=<?= $row['idTienda'] ?>">Editar</a>
+          <a class="btn edit-btn" href="editar_inventario.php?id=<?= $row['idArticulo'] ?>&tienda=<?= $row['idTienda'] ?? 0 ?>">Editar</a>
 
           <form method="POST" style="display:inline;">
             <input type="hidden" name="delete_id" value="<?= $row['idArticulo'] ?>">
@@ -199,3 +214,4 @@ $result = $stmt->get_result();
 $stmt->close();
 $conn->close();
 ?>
+
