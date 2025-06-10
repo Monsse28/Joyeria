@@ -60,20 +60,15 @@ foreach ($carrito as $item) {
         exit;
     }
 
-    // Convertir precio a float para bind_param
     $precioFloat = floatval($item['Precio']);
 
-    // Mostrar datos para depuración (opcional, puedes comentar estas líneas después)
-    /*
-    echo "<pre>Datos artículo:";
-    var_dump($item['idArticulo'], $item['Cantidad'], $precioFloat);
-    echo "</pre>";
-    */
+    // Para depurar valores antes de la consulta
+    // var_dump($idOrden, $item['idArticulo'], $item['Cantidad'], $precioFloat);
 
     $query = "INSERT INTO OrdenesDetalles (idOrden, idArticulo, cantidad, precio_unitario) VALUES (?, ?, ?, ?)";
     $stmt = $conn->prepare($query);
     if (!$stmt) {
-        echo "Error al preparar detalle: " . $conn->error;
+        echo "Error al preparar detalle: " . $conn->error . " | Consulta: " . $query;
         exit;
     }
 
