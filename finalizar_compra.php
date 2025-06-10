@@ -56,11 +56,16 @@ $idOrden = $stmt->insert_id;
 foreach ($carrito as $item) {
     if (!isset($item['idArticulo'], $item['Cantidad'], $item['Precio'])) {
         echo "Error: Datos faltantes en un artículo del carrito.";
+        var_dump($item);
         exit;
     }
 
-    $query = "INSERT INTO OrdenesDetalles (idOrden, idArticulo, cantidad, precio_unitario)
-              VALUES (?, ?, ?, ?)";
+    // Validar tipos
+    echo "<pre>Datos artículo:";
+    var_dump($item['idArticulo'], $item['Cantidad'], $item['Precio']);
+    echo "</pre>";
+
+    $query = "INSERT INTO OrdenesDetalles (idOrden, idArticulo, cantidad, precio_unitario) VALUES (?, ?, ?, ?)";
     $stmt = $conn->prepare($query);
     if (!$stmt) {
         echo "Error al preparar detalle: " . $conn->error;
@@ -82,3 +87,4 @@ unset($_SESSION['carrito']);
 header("Location: ticket.php?idOrden=" . $idOrden);
 exit;
 ?>
+>
