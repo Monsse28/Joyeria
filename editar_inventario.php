@@ -13,35 +13,43 @@ $conn = $db->connect();
 
 // Procesar formulario
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $idArticulo = $_POST['idArticulo'];
-    $idTienda   = $_POST['idTienda'];
-    $cantidad   = $_POST['cantidad'];
-    $precio     = $_POST['precio'];
+    $idArticulo = isset($_POST['idArticulo']) ? (int)$_POST['idArticulo'] : 0;
+    $idTienda   = isset($_POST['idTienda']) ? (int)$_POST['idTienda'] : 0;
+    $cantidad   = isset($_POST['cantidad']) ? (int)$_POST['cantidad'] : 0;
+    $precio     = isset($_POST['precio']) ? (float)$_POST['precio'] : 0;
 
-    // Actualizar cantidad en Inventario
-    $sql = "UPDATE Inventario SET cantidad = ? WHERE idArticulo = ? AND idTienda = ?";
-    $stmt = $conn->prepare($sql);
-    $stmt->bind_param("iii", $cantidad, $idArticulo, $idTienda);
-    $stmt->execute();
+    if ($idArticulo > 0 && $idTienda >= 0) {
+        // Actualizar cantidad en Inventario
+        $sql = "UPDATE Inventario SET cantidad = ? WHERE idArticulo = ? AND idTienda = ?";
+        $stmt = $conn->prepare($sql);
+        if ($stmt) {
+            $stmt->bind_param("iii", $cantidad, $idArticulo, $idTienda);
+            $stmt->execute();
+            $stmt->close();
+        }
 
-    // Actualizar precio en Articulos
-    $sqlPrecio = "UPDATE Articulos SET precio = ? WHERE idArticulo = ?";
-    $stmtPrecio = $conn->prepare($sqlPrecio);
-    $stmtPrecio->bind_param("di", $precio, $idArticulo);
-    $stmtPrecio->execute();
+        // Actualizar precio en Articulos
+        $sqlPrecio = "UPDATE Articulos SET precio = ? WHERE idArticulo = ?";
+        $stmtPrecio = $conn->prepare($sqlPrecio);
+        if ($stmtPrecio) {
+            $stmtPrecio->bind_param("di", $precio, $idArticulo);
+            $stmtPrecio->execute();
+            $stmtPrecio->close();
+        }
 
-    $stmt->close();
-    $stmtPrecio->close();
-    $conn->close();
-
-    header("Location: ver_inventario.php");
-    exit;
+        $conn->close();
+        header("Location: ver_inventario.php");
+        exit;
+    } else {
+        echo "<script>alert('Datos inválidos.'); window.location.href='ver_inventario.php';</script>";
+        exit;
+    }
 }
 
 // Obtener datos
 if (isset($_GET['id']) && isset($_GET['tienda'])) {
-    $idArticulo = $_GET['id'];
-    $idTienda   = $_GET['tienda'];
+    $idArticulo = (int)$_GET['id'];
+    $idTienda   = (int)$_GET['tienda'];
 
     $sql = "SELECT a.descripcion, a.precio, COALESCE(i.cantidad, 0) as cantidad
             FROM Articulos a
@@ -49,6 +57,9 @@ if (isset($_GET['id']) && isset($_GET['tienda'])) {
             WHERE a.idArticulo = ?";
 
     $stmt = $conn->prepare($sql);
+    if (!$stmt) {
+        die("Error al preparar la consulta: " . $conn->error);
+    }
     $stmt->bind_param("ii", $idTienda, $idArticulo);
     $stmt->execute();
     $result = $stmt->get_result();
@@ -146,7 +157,7 @@ if (isset($_GET['id']) && isset($_GET['tienda'])) {
     <input type="hidden" name="idTienda" value="<?= htmlspecialchars($idTienda) ?>">
 
     <label for="cantidad">Cantidad:</label>
-    <input type="number" name="cantidad" value="<?= htmlspecialchars($product['cantidad']) ?>" required>
+    <input type="number" name="cantidad" value="<?= htmlspecialchars($product['cantidad']) ?>" min="0" required>
 
     <label for="precio">Precio:</label>
     <input type="text" name="precio" value="<?= htmlspecialchars($product['precio']) ?>" required>
