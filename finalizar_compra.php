@@ -60,10 +60,15 @@ foreach ($carrito as $item) {
         exit;
     }
 
-    // Validar tipos
+    // Convertir precio a float para bind_param
+    $precioFloat = floatval($item['Precio']);
+
+    // Mostrar datos para depuración (opcional, puedes comentar estas líneas después)
+    /*
     echo "<pre>Datos artículo:";
-    var_dump($item['idArticulo'], $item['Cantidad'], $item['Precio']);
+    var_dump($item['idArticulo'], $item['Cantidad'], $precioFloat);
     echo "</pre>";
+    */
 
     $query = "INSERT INTO OrdenesDetalles (idOrden, idArticulo, cantidad, precio_unitario) VALUES (?, ?, ?, ?)";
     $stmt = $conn->prepare($query);
@@ -72,7 +77,7 @@ foreach ($carrito as $item) {
         exit;
     }
 
-    $stmt->bind_param("iiid", $idOrden, $item['idArticulo'], $item['Cantidad'], $item['Precio']);
+    $stmt->bind_param("iiid", $idOrden, $item['idArticulo'], $item['Cantidad'], $precioFloat);
 
     if (!$stmt->execute()) {
         echo "Error al insertar detalle: " . $stmt->error;
@@ -87,4 +92,4 @@ unset($_SESSION['carrito']);
 header("Location: ticket.php?idOrden=" . $idOrden);
 exit;
 ?>
->
+
