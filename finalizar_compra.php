@@ -36,7 +36,7 @@ foreach ($carrito as $item) {
 }
 
 // Insertar en Ordenes
-$fecha = date('Y-m-d');
+$fecha = date('Y-m-d H:i:s');
 $query = "INSERT INTO Ordenes (idCliente, fecha, total, estado) VALUES (?, ?, ?, 'pendiente')";
 $stmt = $conn->prepare($query);
 if (!$stmt) {
@@ -52,23 +52,18 @@ if (!$stmt->execute()) {
 
 $idOrden = $stmt->insert_id;
 
-// Insertar detalles de orden
+// Insertar detalles de orden (tabla: OrdenDetalle)
 foreach ($carrito as $item) {
     if (!isset($item['idArticulo'], $item['Cantidad'], $item['Precio'])) {
         echo "Error: Datos faltantes en un artículo del carrito.";
-        var_dump($item);
         exit;
     }
 
     $precioFloat = floatval($item['Precio']);
-
-    // Para depurar valores antes de la consulta
-    // var_dump($idOrden, $item['idArticulo'], $item['Cantidad'], $precioFloat);
-
-    $query = "INSERT INTO OrdenesDetalles (idOrden, idArticulo, cantidad, precio_unitario) VALUES (?, ?, ?, ?)";
+    $query = "INSERT INTO OrdenDetalle (idOrden, idArticulo, cantidad, precio_unitario) VALUES (?, ?, ?, ?)";
     $stmt = $conn->prepare($query);
     if (!$stmt) {
-        echo "Error al preparar detalle: " . $conn->error . " | Consulta: " . $query;
+        echo "Error al preparar detalle: " . $conn->error;
         exit;
     }
 
